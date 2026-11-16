@@ -14,17 +14,54 @@ homework-collector skill 的出图脚本，无特定项目依赖。
 """
 import argparse
 import os
+import shutil
 import subprocess
+import sys
 import tempfile
 
-from docx import Document
-from docx.shared import Pt, Cm
-from docx.enum.text import WD_ALIGN_PARAGRAPH
-from docx.enum.table import WD_TABLE_ALIGNMENT
-from docx.oxml.ns import qn
-from docx.oxml import OxmlElement
+try:
+    from docx import Document
+    from docx.shared import Pt, Cm
+    from docx.enum.text import WD_ALIGN_PARAGRAPH
+    from docx.enum.table import WD_TABLE_ALIGNMENT
+    from docx.oxml.ns import qn
+    from docx.oxml import OxmlElement
+    _HAS_DOCX = True
+except ImportError:
+    _HAS_DOCX = False
 
 FONT = 'WenQuanYi Micro Hei'
+
+
+def check_dependencies():
+    """依赖自检：缺什么打印精确安装命令。全部就绪返回 True。"""
+    ok = True
+    try:
+        import docx  # noqa: F401
+        print("OK   python-docx")
+    except ImportError:
+        ok = False
+        print("MISS python-docx  ->  python3 -m pip install python-docx")
+
+    for bin_name, hint in (("libreoffice", "apt install libreoffice-writer"),
+                           ("pdftoppm", "apt install poppler-utils")):
+        if shutil.which(bin_name):
+            print(f"OK   {bin_name}")
+        else:
+            ok = False
+            print(f"MISS {bin_name}  ->  {hint}")
+
+    try:
+        r = subprocess.run(["fc-list"], capture_output=True, text=True, timeout=10)
+        if 'wqy' in r.stdout.lower() or 'wenquanyi' in r.stdout.lower():
+            print("OK   文泉驿字体")
+        else:
+            ok = False
+            print("MISS 文泉驿字体  ->  apt install fonts-wqy-microhei")
+    except FileNotFoundError:
+        ok = False
+        print("MISS fontconfig (fc-list)  ->  apt install fontconfig")
+    return ok
 
 
 def generate_confirmation_text(chinese_items, english_items, math_items):
@@ -165,12 +202,18 @@ def doc_to_image(doc, output_path):
 
 def main():
     parser = argparse.ArgumentParser(description='生成小学生作业汇总图片')
+    parser.add_argument('--check', action='store_true',
+                        help='依赖自检：打印缺失项及安装命令，不生成图片')
     parser.add_argument('--chinese', default='', help='语文作业，多项用 \\n 分隔')
     parser.add_argument('--english', default='', help='英语作业，多项用 \\n 分隔')
     parser.add_argument('--math', default='', help='数学作业，多项用 \\n 分隔')
     parser.add_argument('--output', default='homework.png', help='输出图片路径')
     parser.add_argument('--confirm', action='store_true', help='生成确认文本（不生成图片）')
     args = parser.parse_args()
+
+    if args.check:
+        ok = check_dependencies()
+        raise SystemExit(0 if ok else 1)
 
     split = lambda s: [x.strip() for x in s.split('\n') if x.strip()]
     chinese_items, english_items, math_items = (
@@ -180,6 +223,8 @@ def main():
         print(generate_confirmation_text(chinese_items, english_items, math_items))
         return
 
+    if not _HAS_DOCX:
+        sys.exit("缺 python-docx：python3 -m pip install python-docx（或先跑 --check 看全部缺项）")
     if not (chinese_items or english_items or math_items):
         parser.error('三科内容全空：请至少提供一科作业（--chinese/--english/--math）')
     doc = create_homework_doc(chinese_items, english_items, math_items)

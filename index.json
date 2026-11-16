@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-11-16T12:19:01+00:00",
+  "generated_at": "2026-11-16T12:25:14+00:00",
   "count": 1,
   "skills": [
     {
@@ -13,8 +13,8 @@
       ],
       "file_count": 2,
       "download": "/skills/homework-collector/download",
-      "updated_at": "797cfc7 2026-11-16 20:12:43 +0800",
-      "tar_sha256": "2b6029956c0b78c5b8ad385d63acf70bd9b89e684c889a0973ee185976f797b0"
+      "updated_at": "2b40c85 2026-11-16 20:19:05 +0800",
+      "tar_sha256": "f00e32115c9883714fb0db595f4eb3d79e4def00bfa60c1414e5d2b1dd6d5fad"
     }
   ]
 }

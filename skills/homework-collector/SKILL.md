@@ -14,6 +14,23 @@ description: 小学生每日作业收集：读作业照片/截图 → 提取语�
 照片/文本 ──提取──> 三科清单 ──用户确认──> 修正循环 ──> 出图
 ```
 
+### 第 0 步：环境自检（首次运行前）
+
+```bash
+python3 <skill_dir>/scripts/render_homework.py --check
+```
+
+> 安装目录因 agent 而异（Claude Code `~/.claude/skills/`，Codex `~/.codex/skills/`，其他见各自文档）。**始终用相对于 skill 目录的路径调脚本**，不要假设目录位置。
+
+缺项按提示安装后重跑 `--check` 全 OK 再继续：
+
+```
+MISS python-docx  ->  python3 -m pip install python-docx
+MISS libreoffice  ->  apt install libreoffice-writer
+MISS pdftoppm     ->  apt install poppler-utils
+MISS 文泉驿字体   ->  apt install fonts-wqy-microhei
+```
+
 ### 第 1 步：收集输入
 
 两种来源，可混合：
@@ -45,9 +62,9 @@ description: 小学生每日作业收集：读作业照片/截图 → 提取语�
 
 **凡来源含照片/文件，必须确认后再出图**——视觉读取可能漏行、错字（手写体尤甚）。仅当用户直接发纯文本且三科齐全无歧义时可省确认。
 
-生成确认文本（也可用脚本打）：
+生成确认文本（也可用脚本打，`<skill_dir>` 为本 skill 安装目录）：
 ```bash
-python3 ~/.claude/skills/homework-collector/scripts/render_homework.py \
+python3 <skill_dir>/scripts/render_homework.py \
   --chinese "听写第5课\n预习课文8" --english "抄写单词unit3" --math "口算第12页" --confirm
 ```
 
@@ -76,14 +93,14 @@ python3 ~/.claude/skills/homework-collector/scripts/render_homework.py \
 ### 第 5 步：生成汇总图片
 
 ```bash
-python3 ~/.claude/skills/homework-collector/scripts/render_homework.py \
+python3 <skill_dir>/scripts/render_homework.py \
   --chinese "条目1\n条目2" --english "条目1" --math "条目1" \
   --output ~/homework/$(date +%Y-%m-%d).png
 ```
 
 输出：A4 竖版，2 行 3 列表格（标题行 18pt 加粗居中 + 内容行 14pt `□ 条目`，文泉驿字体），200dpi PNG。转换失败时自动保留 .docx 到输出路径供人工排版。
 
-依赖与解释器选择：脚本需 python-docx。依次探测解释器：当前目录/项目的 venv（`.venv/bin/python -c "import docx"` 探测）→ 系统 `python3`；都缺则 `pip install python-docx`。另需 libreoffice、pdftoppm、文泉驿字体（`fc-list | grep -i wqy` 自检）。
+依赖与解释器选择：python-docx + libreoffice + pdftoppm + 文泉驿字体。**先跑 `--check` 自检**，缺项按提示装；解释器用「当前目录/项目的 venv（`.venv/bin/python -c "import docx"` 探测）→ 系统 `python3`」，都缺 docx 时先 `pip install python-docx`。
 
 ## 注意
 
