@@ -48,7 +48,7 @@ def build() -> dict:
             "skill_dir": d.name,
             "files": files,
             "file_count": len(files),
-            "download": f"/skills/{d.name}/download",
+            "download": f"/{d.name}/download",
             "updated_at": git_last_commit(d),
             "tar_sha256": hashlib.sha256(blob).hexdigest(),
         })

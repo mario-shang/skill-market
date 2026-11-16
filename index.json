@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-11-16T12:25:14+00:00",
+  "generated_at": "2026-11-16T13:45:29+00:00",
   "count": 1,
   "skills": [
     {
@@ -12,9 +12,9 @@
         "scripts/render_homework.py"
       ],
       "file_count": 2,
-      "download": "/skills/homework-collector/download",
-      "updated_at": "2b40c85 2026-11-16 20:19:05 +0800",
-      "tar_sha256": "f00e32115c9883714fb0db595f4eb3d79e4def00bfa60c1414e5d2b1dd6d5fad"
+      "download": "/homework-collector/download",
+      "updated_at": "928e35b 2026-11-16 20:35:57 +0800",
+      "tar_sha256": "d1af6219860b670cb8b941b61852d10ce64eb1b25d9a1ab24ded40c9fb52ce8c"
     }
   ]
 }

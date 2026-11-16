@@ -65,7 +65,7 @@ def main():
         assert "homework-collector" in names
 
         # 5. 下载 + 解压 = 可安装
-        blob = urllib.request.urlopen(f"{BASE}/skills/homework-collector/download").read()
+        blob = urllib.request.urlopen(f"{BASE}/homework-collector/download").read()
         with tempfile.TemporaryDirectory() as td:
             tgz = Path(td) / "s.tar.gz"
             tgz.write_bytes(blob)

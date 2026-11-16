@@ -44,7 +44,7 @@ def list_skills():
                         "version": s["version"], "download": s["download"]} for s in skills]}
 
 
-@app.get("/skills/{name}/download")
+@app.get("/{name}/download")
 def download_skill(name: str):
     d = SKILLS_DIR / name
     # 目录名白名单字符校验，防路径穿越

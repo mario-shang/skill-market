@@ -19,13 +19,13 @@ tests/                  # 端到端冒烟
 
 1. `GET {BASE}/index.json` 拿索引（name/description/version/download）。
 2. 按 description 自判或用户指定哪个 skill 要装。
-3. `GET {BASE}/skills/{name}/download` 下 tar.gz，解压到自己的 skills 目录（如 `~/.claude/skills/<name>/`），按其 SKILL.md 使用。
+3. `GET {BASE}/{name}/download` 下 tar.gz，解压到自己的 skills 目录（如 `~/.claude/skills/<name>/`），按其 SKILL.md 使用。
 
 curl 一条龙：
 
 ```bash
 curl -s {BASE}/index.json | jq -r '.skills[] | "\(.name): \(.description)"'
-curl -sL {BASE}/skills/homework-collector/download | tar xz -C ~/.claude/skills/
+curl -sL {BASE}/homework-collector/download | tar xz -C ~/.claude/skills/
 ```
 
 ## 发布流程
