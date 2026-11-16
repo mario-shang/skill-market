@@ -3,6 +3,7 @@
 ```bash
 # 1. 拉代码
 git clone <repo> /opt/skill-market && cd /opt/skill-market
+apt install -y python3.12-venv   # Ubuntu 最小镜像缺 ensurepip，否则 venv 创建失败
 python3 -m venv .venv && .venv/bin/pip install fastapi uvicorn
 .venv/bin/python scripts/build_index.py
 
