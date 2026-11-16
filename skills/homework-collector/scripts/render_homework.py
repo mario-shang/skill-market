@@ -4,8 +4,7 @@
 小学生作业汇总图片生成器
 
 docx 精确排版 → LibreOffice 转 PDF → pdftoppm 转 PNG。
-从 src/agents/homework_collector/generate_homework.py 抽出的独立版，
-无项目内依赖，供 homework-collector skill 使用。
+homework-collector skill 的出图脚本，无特定项目依赖。
 
 依赖：python-docx（venv）、libreoffice、pdftoppm、文泉驿字体。
 
@@ -29,7 +28,7 @@ FONT = 'WenQuanYi Micro Hei'
 
 
 def generate_confirmation_text(chinese_items, english_items, math_items):
-    """生成确认文本，用于用户确认和修正（与原 agent 输出格式一致）"""
+    """生成确认文本，用于用户确认和修正"""
     lines = []
     for title, items in (('【语文作业】', chinese_items),
                          ('【英语作业】', english_items),
