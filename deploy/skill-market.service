@@ -1,0 +1,20 @@
+[Unit]
+Description=Skill Market (static skill distribution)
+After=network.target
+
+[Service]
+Type=simple
+# 部署机路径按实际调整；仅服务本机回环，对外由 nginx/caddy 反代加 TLS
+WorkingDirectory=/opt/skill-market
+ExecStart=/opt/skill-market/.venv/bin/uvicorn server.app:app --host 127.0.0.1 --port 8300
+Restart=on-failure
+RestartSec=3
+# 2C2G 加固：只读文件系统（skills/ 与 index.json 由 git pull 更新，重启生效）
+ReadOnlyPaths=/opt/skill-market
+NoNewPrivileges=true
+PrivateTmp=true
+ProtectSystem=strict
+MemoryMax=200M
+
+[Install]
+WantedBy=multi-user.target

@@ -1,0 +1,20 @@
+{
+  "generated_at": "2026-11-16T12:12:32+00:00",
+  "count": 1,
+  "skills": [
+    {
+      "name": "homework-collector",
+      "description": "小学生每日作业收集：读作业照片/截图 → 提取语文/英语/数学三科作业清单 → 生成确认文本给用户核对 → 排版生成汇总图片。触发词：作业收集、作业汇总、作业照片、作业清单、生成作业图片、今日作业。需要读取作业照片（多模态）或用户提供纯文本作业内容。",
+      "version": "1.0.0",
+      "skill_dir": "homework-collector",
+      "files": [
+        "SKILL.md",
+        "scripts/render_homework.py"
+      ],
+      "file_count": 2,
+      "download": "/skills/homework-collector/download",
+      "updated_at": null,
+      "tar_sha256": "fe709274e5d425078d75658a7890687d3a18125cc67d37d6d3319a7c7049d200"
+    }
+  ]
+}
